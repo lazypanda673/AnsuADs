@@ -1,0 +1,134 @@
+{
+  "campaigns": [
+    {
+      "id": 1,
+      "name": "Summer Sale 2025",
+      "objective": "Drive Sales",
+      "budget": 5000.00,
+      "start_date": "2025-06-01",
+      "end_date": "2025-08-31",
+      "status": "active",
+      "created_at": "2025-05-15T10:00:00Z",
+      "updated_at": "2025-05-15T10:00:00Z",
+      "metrics": {
+        "impressions": 125000,
+        "clicks": 3500,
+        "conversions": 280,
+        "cost": 3200.00
+      },
+      "variants": [
+        {
+          "id": 1,
+          "name": "Variant A - Discount Focus",
+          "creative_text": "Get 30% off all summer items!",
+          "creative_url": "https://example.com/creative-a.jpg"
+        },
+        {
+          "id": 2,
+          "name": "Variant B - Free Shipping",
+          "creative_text": "Free shipping on orders over $50",
+          "creative_url": "https://example.com/creative-b.jpg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Brand Awareness Campaign",
+      "objective": "Brand Awareness",
+      "budget": 3000.00,
+      "start_date": "2025-05-01",
+      "end_date": "2025-07-31",
+      "status": "active",
+      "created_at": "2025-04-20T14:30:00Z",
+      "updated_at": "2025-04-20T14:30:00Z",
+      "metrics": {
+        "impressions": 250000,
+        "clicks": 5000,
+        "conversions": 150,
+        "cost": 2100.00
+      },
+      "variants": [
+        {
+          "id": 1,
+          "name": "Video Ad",
+          "creative_text": "Discover our story",
+          "creative_url": "https://example.com/video-ad.mp4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Product Launch - New Collection",
+      "objective": "Lead Generation",
+      "budget": 7500.00,
+      "start_date": "2025-07-01",
+      "end_date": "2025-09-30",
+      "status": "draft",
+      "created_at": "2025-06-10T09:15:00Z",
+      "updated_at": "2025-06-10T09:15:00Z",
+      "metrics": {
+        "impressions": 0,
+        "clicks": 0,
+        "conversions": 0,
+        "cost": 0
+      },
+      "variants": []
+    },
+    {
+      "id": 4,
+      "name": "Holiday Season Special",
+      "objective": "Drive Sales",
+      "budget": 10000.00,
+      "start_date": "2024-11-01",
+      "end_date": "2024-12-31",
+      "status": "completed",
+      "created_at": "2024-10-15T11:00:00Z",
+      "updated_at": "2025-01-05T16:00:00Z",
+      "metrics": {
+        "impressions": 500000,
+        "clicks": 15000,
+        "conversions": 1200,
+        "cost": 9800.00
+      },
+      "variants": [
+        {
+          "id": 1,
+          "name": "Christmas Theme",
+          "creative_text": "Perfect gifts for everyone on your list",
+          "creative_url": "https://example.com/xmas.jpg"
+        },
+        {
+          "id": 2,
+          "name": "New Year Theme",
+          "creative_text": "Start 2025 with our amazing deals",
+          "creative_url": "https://example.com/newyear.jpg"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Retargeting Campaign",
+      "objective": "Conversions",
+      "budget": 2000.00,
+      "start_date": "2025-06-15",
+      "end_date": "2025-08-15",
+      "status": "paused",
+      "created_at": "2025-06-01T08:00:00Z",
+      "updated_at": "2025-07-01T12:00:00Z",
+      "metrics": {
+        "impressions": 45000,
+        "clicks": 1200,
+        "conversions": 95,
+        "cost": 850.00
+      },
+      "variants": [
+        {
+          "id": 1,
+          "name": "Cart Abandonment",
+          "creative_text": "Complete your purchase and get 10% off",
+          "creative_url": "https://example.com/cart.jpg"
+        }
+      ]
+    }
+  ]
+}
