@@ -1,26 +1,31 @@
 import { showLogin } from './components/login.js';
 import { showDashboard } from './components/dashboard.js';
+import { showLanding } from './components/landing.js';
+import { showRegister } from './components/register.js';
 import { getAuthUser } from './utils/auth.js';
 
 // Router configuration
 const routes = {
-    '/': 'dashboard',
+    '/': 'landing',
     '/login': 'login',
+    '/register': 'register',
     '/dashboard': 'dashboard'
 };
 
 // Initialize app
 function init() {
     const user = getAuthUser();
+    const path = window.location.pathname;
     
-    // Check if user is authenticated
-    if (!user && window.location.pathname !== '/login') {
-        navigate('/login');
+    // If user is logged in and on landing/login/register, redirect to dashboard
+    if (user && (path === '/' || path === '/login' || path === '/register')) {
+        navigate('/dashboard');
         return;
     }
     
-    if (user && window.location.pathname === '/login') {
-        navigate('/dashboard');
+    // If user is not logged in and trying to access dashboard, redirect to landing
+    if (!user && path === '/dashboard') {
+        navigate('/');
         return;
     }
     
@@ -37,14 +42,20 @@ function router() {
     app.innerHTML = '';
     
     switch (route) {
+        case 'landing':
+            showLanding();
+            break;
         case 'login':
             showLogin(app);
+            break;
+        case 'register':
+            showRegister();
             break;
         case 'dashboard':
             showDashboard(app);
             break;
         default:
-            showDashboard(app);
+            showLanding();
     }
 }
 
