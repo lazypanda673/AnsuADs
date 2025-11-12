@@ -20,10 +20,50 @@ export async function showDashboard(container) {
     const createBtn = createElement('button', {
         className: 'btn btn-primary',
         onclick: () => openCampaignModal(null, dashboardContainer)
-    }, ['Create Campaign']);
+    }, ['+ Create Campaign']);
     
     dashboardHeader.appendChild(title);
     dashboardHeader.appendChild(createBtn);
+    
+    // Filter and Search Section
+    const filterSection = createElement('div', { className: 'filter-section' });
+    
+    // Search input
+    const searchWrapper = createElement('div', { className: 'search-wrapper' });
+    const searchInput = createElement('input', {
+        type: 'text',
+        className: 'search-input',
+        placeholder: 'Search campaigns...',
+        id: 'campaign-search'
+    });
+    searchWrapper.appendChild(searchInput);
+    
+    // Filter dropdown
+    const filterWrapper = createElement('div', { className: 'filter-wrapper' });
+    const filterLabel = createElement('label', { for: 'status-filter', className: 'filter-label' }, ['Filter by:']);
+    const filterSelect = createElement('select', {
+        className: 'filter-select',
+        id: 'status-filter'
+    });
+    
+    const filterOptions = [
+        { value: 'all', label: 'All Campaigns' },
+        { value: 'active', label: 'Active' },
+        { value: 'paused', label: 'Paused' },
+        { value: 'draft', label: 'Draft' },
+        { value: 'completed', label: 'Completed' }
+    ];
+    
+    filterOptions.forEach(opt => {
+        const option = createElement('option', { value: opt.value }, [opt.label]);
+        filterSelect.appendChild(option);
+    });
+    
+    filterWrapper.appendChild(filterLabel);
+    filterWrapper.appendChild(filterSelect);
+    
+    filterSection.appendChild(searchWrapper);
+    filterSection.appendChild(filterWrapper);
     
     // Stats section
     const statsSection = createElement('div', { className: 'dashboard-stats' });
@@ -32,6 +72,7 @@ export async function showDashboard(container) {
     const campaignsSection = createElement('div', { className: 'campaigns-grid', id: 'campaigns-grid' });
     
     dashboardContainer.appendChild(dashboardHeader);
+    dashboardContainer.appendChild(filterSection);
     dashboardContainer.appendChild(statsSection);
     dashboardContainer.appendChild(campaignsSection);
     dashboard.appendChild(dashboardContainer);
@@ -40,6 +81,15 @@ export async function showDashboard(container) {
     // Load data
     await loadStats(statsSection);
     await loadCampaigns(campaignsSection, dashboardContainer);
+    
+    // Add event listeners for search and filter
+    searchInput.addEventListener('input', (e) => {
+        filterCampaigns(e.target.value, filterSelect.value, campaignsSection, dashboardContainer);
+    });
+    
+    filterSelect.addEventListener('change', (e) => {
+        filterCampaigns(searchInput.value, e.target.value, campaignsSection, dashboardContainer);
+    });
 }
 
 async function loadStats(container) {
@@ -98,6 +148,43 @@ async function loadCampaigns(container, parentContainer) {
     }
 }
 
+async function filterCampaigns(searchTerm, statusFilter, container, parentContainer) {
+    try {
+        const campaigns = await fetchCampaigns();
+        
+        // Filter by search term and status
+        const filtered = campaigns.filter(campaign => {
+            const matchesSearch = campaign.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                (campaign.objective && campaign.objective.toLowerCase().includes(searchTerm.toLowerCase()));
+            const matchesStatus = statusFilter === 'all' || campaign.status === statusFilter;
+            
+            return matchesSearch && matchesStatus;
+        });
+        
+        container.innerHTML = '';
+        
+        if (filtered.length === 0) {
+            const emptyState = createElement('div', { className: 'empty-state' });
+            const icon = createElement('div', { className: 'empty-state-icon' }, ['🔍']);
+            const title = createElement('h2', { className: 'empty-state-title' }, ['No campaigns found']);
+            const subtitle = createElement('p', {}, ['Try adjusting your search or filter criteria']);
+            
+            emptyState.appendChild(icon);
+            emptyState.appendChild(title);
+            emptyState.appendChild(subtitle);
+            container.appendChild(emptyState);
+            return;
+        }
+        
+        filtered.forEach(campaign => {
+            const card = createCampaignCard(campaign, parentContainer);
+            container.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Error filtering campaigns:', error);
+    }
+}
+
 function createCampaignCard(campaign, parentContainer) {
     const card = createElement('div', { className: 'campaign-card' });
     
@@ -115,6 +202,38 @@ function createCampaignCard(campaign, parentContainer) {
     
     cardHeader.appendChild(nameDiv);
     cardHeader.appendChild(status);
+    
+    // Performance Metrics (if campaign is active or completed)
+    if (campaign.status === 'active' || campaign.status === 'completed') {
+        const metrics = campaign.metrics || {};
+        const metricsSection = createElement('div', { className: 'campaign-metrics' });
+        
+        const metricItems = [
+            { label: 'Impressions', value: (metrics.impressions || 0).toLocaleString(), icon: '👁️' },
+            { label: 'Clicks', value: (metrics.clicks || 0).toLocaleString(), icon: '🖱️' },
+            { label: 'CTR', value: `${(metrics.ctr || 0).toFixed(2)}%`, icon: '📊' },
+            { label: 'Conversions', value: (metrics.conversions || 0).toLocaleString(), icon: '✅' }
+        ];
+        
+        metricItems.forEach(item => {
+            const metricDiv = createElement('div', { className: 'metric-item' });
+            const iconSpan = createElement('span', { className: 'metric-icon' }, [item.icon]);
+            const metricContent = createElement('div', { className: 'metric-content' });
+            const label = createElement('div', { className: 'metric-label' }, [item.label]);
+            const value = createElement('div', { className: 'metric-value' }, [item.value]);
+            
+            metricContent.appendChild(label);
+            metricContent.appendChild(value);
+            metricDiv.appendChild(iconSpan);
+            metricDiv.appendChild(metricContent);
+            metricsSection.appendChild(metricDiv);
+        });
+        
+        card.appendChild(cardHeader);
+        card.appendChild(metricsSection);
+    } else {
+        card.appendChild(cardHeader);
+    }
     
     // Details
     const details = createElement('div', { className: 'campaign-details' });
