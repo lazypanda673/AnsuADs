@@ -4,9 +4,11 @@ let mockCampaigns = [];
 
 // Load initial data
 export async function loadMockData() {
-    // Always use absolute path from domain root
-    // This works because Live Server serves from the project root
-    const path = '/data/seed.json';
+    // Determine the correct base path
+    // On GitHub Pages: /AnsuADs/data/seed.json
+    // On local/root deployment: /data/seed.json
+    const basePath = window.location.pathname.includes('/AnsuADs/') ? '/AnsuADs' : '';
+    const path = `${basePath}/data/seed.json`;
     
     try {
         console.log('Loading data from:', path);
