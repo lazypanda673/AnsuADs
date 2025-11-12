@@ -14,6 +14,15 @@ const routes = {
 
 // Initialize app
 function init() {
+    // Check if we were redirected from 404.html (for GitHub Pages)
+    const redirectPath = sessionStorage.getItem('redirectPath');
+    if (redirectPath) {
+        sessionStorage.removeItem('redirectPath');
+        // Remove /AnsuADs prefix if present (GitHub Pages)
+        const cleanPath = redirectPath.replace('/AnsuADs', '') || '/';
+        window.history.replaceState({}, '', cleanPath);
+    }
+    
     const user = getAuthUser();
     const path = window.location.pathname;
     

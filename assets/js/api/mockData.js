@@ -4,57 +4,45 @@ let mockCampaigns = [];
 
 // Load initial data
 export async function loadMockData() {
-    // Get the base URL
-    const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
-    const paths = [
-        'data/seed.json',
-        './data/seed.json',
-        '/data/seed.json',
-        baseUrl + 'data/seed.json'
-    ];
+    // Always use absolute path from domain root
+    // This works because Live Server serves from the project root
+    const path = '/data/seed.json';
     
-    console.log('Base URL:', baseUrl);
-    
-    for (const path of paths) {
-        try {
-            console.log('Trying to load data from:', path);
-            const response = await fetch(path);
-            if (!response.ok) {
-                console.log(`Failed to load from ${path}: ${response.status}`);
-                continue;
+    try {
+        console.log('Loading data from:', path);
+        const response = await fetch(path);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        mockCampaigns = data.campaigns || [];
+        console.log('✅ Successfully loaded', mockCampaigns.length, 'campaigns from seed.json');
+        return data;
+    } catch (error) {
+        console.error('❌ Error loading seed.json:', error);
+        console.warn('⚠️  Make sure you start Live Server from index.html or the project root');
+        // If loading fails, use fallback data
+        mockCampaigns = [
+            {
+                id: 1,
+                name: "Sample Campaign (Fallback)",
+                objective: "Drive Sales",
+                budget: 5000.00,
+                start_date: "2025-06-01",
+                end_date: "2025-08-31",
+                status: "active",
+                metrics: {
+                    impressions: 125000,
+                    clicks: 3500,
+                    ctr: 2.8,
+                    conversions: 280,
+                    cost: 3200.00
+                },
+                variants: []
             }
-            const data = await response.json();
-            mockCampaigns = data.campaigns || [];
-            console.log('Successfully loaded campaigns:', mockCampaigns.length, 'from', path);
-            return data;
-        } catch (error) {
-            console.log(`Error with path ${path}:`, error.message);
-            continue;
-        }
+        ];
+        return { campaigns: mockCampaigns };
     }
-    
-    // If all paths fail, use fallback data
-    console.warn('Could not load seed.json from any path, using fallback data');
-    mockCampaigns = [
-        {
-            id: 1,
-            name: "Sample Campaign",
-            objective: "Drive Sales",
-            budget: 5000.00,
-            start_date: "2025-06-01",
-            end_date: "2025-08-31",
-            status: "active",
-            metrics: {
-                impressions: 125000,
-                clicks: 3500,
-                ctr: 2.8,
-                conversions: 280,
-                cost: 3200.00
-            },
-            variants: []
-        }
-    ];
-    return { campaigns: mockCampaigns };
 }
 
 // Campaign API
