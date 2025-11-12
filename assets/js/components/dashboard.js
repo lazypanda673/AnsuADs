@@ -122,6 +122,7 @@ async function loadStats(container) {
 async function loadCampaigns(container, parentContainer) {
     try {
         const campaigns = await fetchCampaigns();
+        console.log('Dashboard loaded campaigns:', campaigns);
         
         container.innerHTML = '';
         

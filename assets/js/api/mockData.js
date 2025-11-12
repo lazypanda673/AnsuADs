@@ -6,13 +6,36 @@ let mockCampaigns = [];
 export async function loadMockData() {
     try {
         const response = await fetch('./data/seed.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         mockCampaigns = data.campaigns || [];
+        console.log('Loaded campaigns:', mockCampaigns.length);
         return data;
     } catch (error) {
         console.error('Error loading mock data:', error);
-        mockCampaigns = [];
-        return { campaigns: [] };
+        // Fallback to some default campaigns if file doesn't load
+        mockCampaigns = [
+            {
+                id: 1,
+                name: "Sample Campaign",
+                objective: "Drive Sales",
+                budget: 5000.00,
+                start_date: "2025-06-01",
+                end_date: "2025-08-31",
+                status: "active",
+                metrics: {
+                    impressions: 125000,
+                    clicks: 3500,
+                    ctr: 2.8,
+                    conversions: 280,
+                    cost: 3200.00
+                },
+                variants: []
+            }
+        ];
+        return { campaigns: mockCampaigns };
     }
 }
 
