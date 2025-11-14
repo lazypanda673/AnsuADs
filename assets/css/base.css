@@ -93,6 +93,12 @@ body {
 .btn-secondary {
     background-color: var(--secondary-color);
     color: white;
+    border: 1px solid var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+    border-color: #475569;
 }
 
 .btn-danger {

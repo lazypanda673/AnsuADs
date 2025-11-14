@@ -79,6 +79,21 @@
 
 .campaign-form .modal-footer .btn {
     min-width: 100px;
+    padding: 0.625rem 1.25rem;
+    font-weight: 500;
+}
+
+.campaign-form .modal-footer .btn-secondary {
+    background-color: #64748b !important;
+    color: #ffffff !important;
+    border: 1px solid #64748b !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.campaign-form .modal-footer .btn-primary {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
 }
 
 @media (max-width: 768px) {
