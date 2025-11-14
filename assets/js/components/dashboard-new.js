@@ -9,7 +9,7 @@ function createSidebar(activeRoute = '/dashboard') {
     
     const sidebarHeader = createElement('div', { className: 'sidebar-header' });
     const logo = createElement('div', { className: 'sidebar-logo' });
-    logo.innerHTML = '<span class="logo-icon">🎯</span> AnsuADs';
+    logo.innerHTML = '<span class="logo-icon">📊</span> AnsuADs';
     logo.style.cursor = 'pointer';
     logo.onclick = () => navigate('/dashboard');
     sidebarHeader.appendChild(logo);

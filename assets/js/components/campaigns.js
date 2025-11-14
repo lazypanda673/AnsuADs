@@ -281,36 +281,35 @@ function createCampaignCard(campaign, parentContainer) {
     cardHeader.appendChild(nameDiv);
     cardHeader.appendChild(status);
     
-    if (campaign.status === 'active' || campaign.status === 'completed') {
-        const metrics = campaign.metrics || {};
-        const metricsSection = createElement('div', { className: 'campaign-metrics' });
+    const metrics = campaign.metrics || {};
+    const metricsSection = createElement('div', { className: 'campaign-metrics' });
+    
+    // Show metrics for all campaigns, use --- for non-active/completed
+    const showData = campaign.status === 'active' || campaign.status === 'completed';
+    
+    const metricItems = [
+        { label: 'Impressions', value: showData ? (metrics.impressions || 0).toLocaleString() : '---', icon: '👁️' },
+        { label: 'Clicks', value: showData ? (metrics.clicks || 0).toLocaleString() : '---', icon: '🖱️' },
+        { label: 'CTR', value: showData ? `${(metrics.ctr || 0).toFixed(2)}%` : '---', icon: '📊' },
+        { label: 'Conversions', value: showData ? (metrics.conversions || 0).toLocaleString() : '---', icon: '✅' }
+    ];
+    
+    metricItems.forEach(item => {
+        const metricDiv = createElement('div', { className: 'metric-item' });
+        const iconSpan = createElement('span', { className: 'metric-icon' }, [item.icon]);
+        const metricContent = createElement('div', { className: 'metric-content' });
+        const label = createElement('div', { className: 'metric-label' }, [item.label]);
+        const value = createElement('div', { className: 'metric-value' }, [item.value]);
         
-        const metricItems = [
-            { label: 'Impressions', value: (metrics.impressions || 0).toLocaleString(), icon: '👁️' },
-            { label: 'Clicks', value: (metrics.clicks || 0).toLocaleString(), icon: '🖱️' },
-            { label: 'CTR', value: `${(metrics.ctr || 0).toFixed(2)}%`, icon: '📊' },
-            { label: 'Conversions', value: (metrics.conversions || 0).toLocaleString(), icon: '✅' }
-        ];
-        
-        metricItems.forEach(item => {
-            const metricDiv = createElement('div', { className: 'metric-item' });
-            const iconSpan = createElement('span', { className: 'metric-icon' }, [item.icon]);
-            const metricContent = createElement('div', { className: 'metric-content' });
-            const label = createElement('div', { className: 'metric-label' }, [item.label]);
-            const value = createElement('div', { className: 'metric-value' }, [item.value]);
-            
-            metricContent.appendChild(label);
-            metricContent.appendChild(value);
-            metricDiv.appendChild(iconSpan);
-            metricDiv.appendChild(metricContent);
-            metricsSection.appendChild(metricDiv);
-        });
-        
-        card.appendChild(cardHeader);
-        card.appendChild(metricsSection);
-    } else {
-        card.appendChild(cardHeader);
-    }
+        metricContent.appendChild(label);
+        metricContent.appendChild(value);
+        metricDiv.appendChild(iconSpan);
+        metricDiv.appendChild(metricContent);
+        metricsSection.appendChild(metricDiv);
+    });
+    
+    card.appendChild(cardHeader);
+    card.appendChild(metricsSection);
     
     const details = createElement('div', { className: 'campaign-details' });
     

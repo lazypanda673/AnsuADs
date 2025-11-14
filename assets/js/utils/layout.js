@@ -42,16 +42,6 @@ export function createSidebar(activeRoute = '/dashboard') {
     
     const sidebarFooter = createElement('div', { className: 'sidebar-footer' });
     
-    const profileLink = createElement('a', {
-        href: '#',
-        className: 'sidebar-nav-item',
-        onclick: (e) => {
-            e.preventDefault();
-            navigate('/profile');
-        }
-    });
-    profileLink.innerHTML = '<span class="sidebar-nav-icon">👤</span><span>Profile</span>';
-    
     const logoutBtn = createElement('button', {
         className: 'sidebar-logout-btn',
         onclick: () => {
@@ -61,7 +51,6 @@ export function createSidebar(activeRoute = '/dashboard') {
     });
     logoutBtn.innerHTML = '<span class="nav-icon">🚪</span><span class="nav-text">Logout</span>';
     
-    sidebarFooter.appendChild(profileLink);
     sidebarFooter.appendChild(logoutBtn);
     
     sidebar.appendChild(sidebarHeader);

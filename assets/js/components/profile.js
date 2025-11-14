@@ -7,6 +7,12 @@ export async function showProfile(container) {
     container.innerHTML = '';
     const user = getAuthUser();
     
+    // Get campaigns data from localStorage
+    const campaigns = JSON.parse(localStorage.getItem('ansuads_campaigns') || '[]');
+    const totalCampaigns = campaigns.length;
+    const activeCampaigns = campaigns.filter(c => c.status === 'active').length;
+    const completedCampaigns = campaigns.filter(c => c.status === 'completed').length;
+    
     const dashboard = createElement('div', { className: 'dashboard' });
     const sidebar = createSidebar('/profile');
     const main = createElement('div', { className: 'dashboard-main' });
@@ -55,43 +61,39 @@ export async function showProfile(container) {
         </div>
     `;
     
-    // Stats card
+    // Stats card with emojis and real data
     const statsCard = createElement('div', { className: 'campaign-card' });
     statsCard.innerHTML = `
         <h3>Your Activity</h3>
         <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
             <div class="stat-card">
-                <div class="stat-value">12</div>
+                <div class="stat-value">📊 ${totalCampaigns}</div>
                 <div class="stat-label">Total Campaigns</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">8</div>
+                <div class="stat-value">✅ ${activeCampaigns}</div>
                 <div class="stat-label">Active</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">4</div>
+                <div class="stat-value">✔️ ${completedCampaigns}</div>
                 <div class="stat-label">Completed</div>
             </div>
         </div>
     `;
     
-    // Actions card
+    // Actions card without logout button
     const actionsCard = createElement('div', { className: 'campaign-card' });
     actionsCard.innerHTML = `
         <h3>Account Actions</h3>
         <div class="profile-actions">
-            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">Change Password</button>
-            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">Download Data</button>
-            <button class="btn btn-danger logout-btn" style="width: 100%;">Logout</button>
+            <button class="btn btn-secondary change-password-btn" style="width: 100%; margin-bottom: 0.5rem;">
+                <i class="fas fa-key"></i> Change Password
+            </button>
+            <button class="btn btn-secondary download-data-btn" style="width: 100%; margin-bottom: 0.5rem;">
+                <i class="fas fa-download"></i> Download Data
+            </button>
         </div>
     `;
-    
-    // Add logout functionality
-    const logoutButton = actionsCard.querySelector('.logout-btn');
-    logoutButton.addEventListener('click', () => {
-        logout();
-        navigate('/login');
-    });
     
     profileContainer.appendChild(profileHeader);
     profileContainer.appendChild(profileCard);

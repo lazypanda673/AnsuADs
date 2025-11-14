@@ -1,8 +1,10 @@
 import { createElement } from '../utils/dom.js';
+import { getAuthUser } from '../utils/auth.js';
 import { createSidebar, createTopBar } from '../utils/layout.js';
 
 export async function showSettings(container) {
     container.innerHTML = '';
+    const user = getAuthUser();
     
     const dashboard = createElement('div', { className: 'dashboard' });
     const sidebar = createSidebar('/settings');
@@ -12,88 +14,153 @@ export async function showSettings(container) {
     
     // Settings content
     const settingsHeader = createElement('div', { className: 'settings-header' });
-    settingsHeader.innerHTML = '<p>Manage your account and application preferences</p>';
+    settingsHeader.innerHTML = '<h2>Settings</h2><p>Manage your account and application preferences</p>';
     
     // Settings sections
-    const settingsGrid = createElement('div', { className: 'settings-grid' });
+    const settingsContainer = createElement('div', { className: 'settings-sections' });
     
     // Account Settings
-    const accountCard = createElement('div', { className: 'campaign-card' });
-    accountCard.innerHTML = `
-        <h3>Account Settings</h3>
-        <div class="settings-section">
-            <div class="setting-item">
-                <label>Email Notifications</label>
-                <input type="checkbox" checked>
+    const accountSection = createElement('div', { className: 'settings-section' });
+    accountSection.innerHTML = `
+        <h3><i class="fas fa-user-circle"></i> Account Settings</h3>
+        <div class="campaign-card">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" value="${user?.name || ''}" placeholder="Username">
             </div>
-            <div class="setting-item">
-                <label>Campaign Updates</label>
-                <input type="checkbox" checked>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" class="form-control" value="${user?.email || ''}" placeholder="Email">
             </div>
-            <div class="setting-item">
-                <label>Weekly Reports</label>
-                <input type="checkbox">
+            <div class="form-group">
+                <label>Password</label>
+                <button class="btn btn-primary" onclick="alert('Change password functionality coming soon')">
+                    <i class="fas fa-key"></i> Change Password
+                </button>
             </div>
         </div>
     `;
     
-    // Display Preferences
-    const displayCard = createElement('div', { className: 'campaign-card' });
-    displayCard.innerHTML = `
-        <h3>Display Preferences</h3>
-        <div class="settings-section">
-            <div class="setting-item">
+    // Security Settings
+    const securitySection = createElement('div', { className: 'settings-section' });
+    securitySection.innerHTML = `
+        <h3><i class="fas fa-shield-alt"></i> Security</h3>
+        <div class="campaign-card">
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label>Two-Factor Authentication</label>
+                    <p class="setting-description">Add an extra layer of security to your account</p>
+                </div>
+                <button class="btn btn-primary">Enable 2FA</button>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label>Active Sessions</label>
+                    <p class="setting-description">Manage devices where you're currently logged in</p>
+                </div>
+                <button class="btn btn-secondary">View Sessions</button>
+            </div>
+        </div>
+    `;
+    
+    // Appearance Settings
+    const appearanceSection = createElement('div', { className: 'settings-section' });
+    appearanceSection.innerHTML = `
+        <h3><i class="fas fa-palette"></i> Appearance</h3>
+        <div class="campaign-card">
+            <div class="form-group">
                 <label>Theme</label>
                 <select class="form-control">
-                    <option>Light</option>
+                    <option selected>Light</option>
                     <option>Dark</option>
                     <option>Auto</option>
                 </select>
             </div>
-            <div class="setting-item">
+            <div class="form-group">
                 <label>Language</label>
                 <select class="form-control">
-                    <option>English</option>
+                    <option selected>English</option>
                     <option>Spanish</option>
                     <option>French</option>
+                    <option>German</option>
                 </select>
             </div>
         </div>
     `;
     
-    // Privacy Settings
-    const privacyCard = createElement('div', { className: 'campaign-card' });
-    privacyCard.innerHTML = `
-        <h3>Privacy & Security</h3>
-        <div class="settings-section">
-            <div class="setting-item">
-                <label>Two-Factor Authentication</label>
-                <button class="btn btn-secondary">Enable</button>
+    // Notifications Settings
+    const notificationsSection = createElement('div', { className: 'settings-section' });
+    notificationsSection.innerHTML = `
+        <h3><i class="fas fa-bell"></i> Notifications</h3>
+        <div class="campaign-card">
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label>Email Notifications</label>
+                    <p class="setting-description">Receive campaign updates via email</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
-            <div class="setting-item">
-                <label>Data Export</label>
-                <button class="btn btn-secondary">Download Data</button>
-            </div>
-            <div class="setting-item">
-                <label>Delete Account</label>
-                <button class="btn btn-danger">Delete</button>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label>Push Notifications</label>
+                    <p class="setting-description">Get real-time alerts about your campaigns</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
         </div>
     `;
     
-    settingsGrid.appendChild(accountCard);
-    settingsGrid.appendChild(displayCard);
-    settingsGrid.appendChild(privacyCard);
+    // Data & Privacy Settings
+    const privacySection = createElement('div', { className: 'settings-section' });
+    privacySection.innerHTML = `
+        <h3><i class="fas fa-database"></i> Data & Privacy</h3>
+        <div class="campaign-card">
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label>Export Your Data</label>
+                    <p class="setting-description">Download a copy of all your campaign data</p>
+                </div>
+                <button class="btn btn-secondary" onclick="alert('Data export functionality coming soon')">
+                    <i class="fas fa-download"></i> Export Data
+                </button>
+            </div>
+            <div class="setting-row danger-zone">
+                <div class="setting-info">
+                    <label>Delete Account</label>
+                    <p class="setting-description">Permanently delete your account and all data</p>
+                </div>
+                <button class="btn btn-danger" onclick="if(confirm('Are you sure? This action cannot be undone.')) alert('Account deletion functionality coming soon')">
+                    <i class="fas fa-trash"></i> Delete Account
+                </button>
+            </div>
+        </div>
+    `;
+    
+    settingsContainer.appendChild(accountSection);
+    settingsContainer.appendChild(securitySection);
+    settingsContainer.appendChild(appearanceSection);
+    settingsContainer.appendChild(notificationsSection);
+    settingsContainer.appendChild(privacySection);
     
     // Save button
     const saveSection = createElement('div', { className: 'settings-actions' });
     saveSection.innerHTML = `
-        <button class="btn btn-primary">Save Changes</button>
-        <button class="btn btn-secondary">Cancel</button>
+        <button class="btn btn-primary" onclick="alert('Settings saved successfully!')">
+            <i class="fas fa-save"></i> Save All Changes
+        </button>
+        <button class="btn btn-secondary" onclick="window.location.reload()">
+            <i class="fas fa-undo"></i> Reset
+        </button>
     `;
     
     dashboardContent.appendChild(settingsHeader);
-    dashboardContent.appendChild(settingsGrid);
+    dashboardContent.appendChild(settingsContainer);
     dashboardContent.appendChild(saveSection);
     
     main.appendChild(topBar);
