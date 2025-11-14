@@ -1,7 +1,8 @@
 import { showLogin } from './components/login.js';
-import { showDashboard } from './components/dashboard.js';
+import { showDashboard } from './components/dashboard-new.js';
 import { showLanding } from './components/landing.js';
 import { showRegister } from './components/register.js';
+import { showCampaigns } from './components/campaigns.js';
 import { showAnalytics } from './components/analytics.js';
 import { showABTests } from './components/abTests.js';
 import { showSettings } from './components/settings.js';
@@ -15,6 +16,7 @@ const routes = {
     '/login': 'login',
     '/register': 'register',
     '/dashboard': 'dashboard',
+    '/campaigns': 'campaigns',
     '/analytics': 'analytics',
     '/ab-tests': 'ab-tests',
     '/settings': 'settings',
@@ -47,7 +49,7 @@ function init() {
     }
     
     // If user is not logged in and trying to access protected pages, redirect to landing
-    const protectedRoutes = ['/dashboard', '/analytics', '/ab-tests', '/settings', '/profile'];
+    const protectedRoutes = ['/dashboard', '/campaigns', '/analytics', '/ab-tests', '/settings', '/profile'];
     if (!user && protectedRoutes.includes(path)) {
         navigate('/');
         return;
@@ -83,6 +85,9 @@ function router() {
             break;
         case 'dashboard':
             showDashboard(app);
+            break;
+        case 'campaigns':
+            showCampaigns(app);
             break;
         case 'analytics':
             showAnalytics(app);

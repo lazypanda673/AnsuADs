@@ -1,86 +1,16 @@
 import { createElement } from '../utils/dom.js';
 import { getAuthUser, logout } from '../utils/auth.js';
+import { createSidebar, createTopBar } from '../utils/layout.js';
 import { navigate } from '../router.js';
-
-function createSidebar() {
-    const sidebar = createElement('div', { className: 'dashboard-sidebar' });
-    
-    const logo = createElement('div', { className: 'sidebar-logo' });
-    logo.innerHTML = '<h2>AnsuADs</h2>';
-    
-    const nav = createElement('nav', { className: 'sidebar-nav' });
-    const navItems = [
-        { icon: '📊', text: 'Dashboard', route: '/dashboard' },
-        { icon: '📢', text: 'Campaigns', route: '/dashboard' },
-        { icon: '📈', text: 'Analytics', route: '/analytics' },
-        { icon: '🎯', text: 'A/B Tests', route: '/ab-tests' },
-        { icon: '⚙️', text: 'Settings', route: '/settings' }
-    ];
-    
-    navItems.forEach(item => {
-        const navItem = createElement('a', { 
-            className: `sidebar-nav-item ${item.active ? 'active' : ''}`,
-            href: '#'
-        });
-        navItem.innerHTML = `<span class="nav-icon">${item.icon}</span><span class="nav-text">${item.text}</span>`;
-        navItem.addEventListener('click', (e) => {
-            e.preventDefault();
-            navigate(item.route);
-        });
-        nav.appendChild(navItem);
-    });
-    
-    const logoutBtn = createElement('button', { className: 'sidebar-logout-btn' });
-    logoutBtn.innerHTML = '<span class="nav-icon">🚪</span><span class="nav-text">Logout</span>';
-    logoutBtn.addEventListener('click', () => {
-        logout();
-        navigate('/login');
-    });
-    
-    sidebar.appendChild(logo);
-    sidebar.appendChild(nav);
-    sidebar.appendChild(logoutBtn);
-    
-    return sidebar;
-}
-
-function createTopBar() {
-    const user = getAuthUser();
-    const topBar = createElement('div', { className: 'dashboard-topbar' });
-    
-    const pageTitle = createElement('h1', { className: 'page-title' });
-    pageTitle.textContent = 'My Profile';
-    
-    const profileMenu = createElement('div', { className: 'profile-menu' });
-    const profileBtn = createElement('div', { className: 'profile-btn' });
-    
-    const avatar = createElement('div', { className: 'profile-avatar' });
-    avatar.textContent = user.name.charAt(0).toUpperCase();
-    
-    const userInfo = createElement('div', { className: 'profile-info' });
-    userInfo.innerHTML = `
-        <div class="profile-name">${user.name}</div>
-        <div class="profile-email">${user.email}</div>
-    `;
-    
-    profileBtn.appendChild(avatar);
-    profileBtn.appendChild(userInfo);
-    
-    profileMenu.appendChild(profileBtn);
-    topBar.appendChild(pageTitle);
-    topBar.appendChild(profileMenu);
-    
-    return topBar;
-}
 
 export async function showProfile(container) {
     container.innerHTML = '';
     const user = getAuthUser();
     
     const dashboard = createElement('div', { className: 'dashboard' });
-    const sidebar = createSidebar();
+    const sidebar = createSidebar('/profile');
     const main = createElement('div', { className: 'dashboard-main' });
-    const topBar = createTopBar();
+    const topBar = createTopBar('My Profile');
     const dashboardContent = createElement('div', { className: 'dashboard-content' });
     
     // Profile content
