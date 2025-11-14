@@ -122,6 +122,9 @@ export async function showCampaignModal(campaign, onSave) {
         form.appendChild(variantsSection);
     }
     
+    // Create modal first to get overlay reference
+    const { overlay, modal } = createModal(title, form);
+    
     // Footer
     const footer = createElement('div', { className: 'modal-footer' });
     
@@ -211,7 +214,7 @@ export async function showCampaignModal(campaign, onSave) {
         }
     });
     
-    const { overlay, modal } = createModal(title, form);
+    // Append footer to modal
     modal.appendChild(footer);
 }
 
