@@ -131,14 +131,13 @@ export function showLogin(container) {
         
         if (hasError) return;
         
-        // Attempt login (mock)
+        // Attempt login with password validation
         try {
-            login(email, password);
+            await login(email, password);
             navigate('/dashboard');
         } catch (error) {
-            loginError.textContent = 'Login successful! Redirecting...';
+            loginError.textContent = error.message || 'Invalid email or password';
             loginError.classList.remove('hidden');
-            setTimeout(() => navigate('/dashboard'), 500);
         }
     });
 

@@ -1,5 +1,5 @@
 import { navigate } from '../main.js';
-import { login } from '../utils/auth.js';
+import { register } from '../utils/auth.js';
 
 export function showRegister() {
     const app = document.getElementById('app');
@@ -223,16 +223,16 @@ export function showRegister() {
         
         if (hasError) return;
         
-        // Mock registration - auto login
+        // Register user with password hashing
         try {
-            login(email, password);
+            await register(email, password, firstName, lastName);
             registerError.textContent = 'Account created successfully! Redirecting...';
             registerError.style.backgroundColor = '#d1fae5';
             registerError.style.color = '#065f46';
             registerError.classList.remove('hidden');
             setTimeout(() => navigate('/dashboard'), 1000);
         } catch (error) {
-            registerError.textContent = 'Registration failed. Please try again.';
+            registerError.textContent = error.message || 'Registration failed. Please try again.';
             registerError.classList.remove('hidden');
         }
     });
