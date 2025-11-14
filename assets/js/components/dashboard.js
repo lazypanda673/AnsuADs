@@ -296,10 +296,17 @@ function createCampaignCard(campaign, parentContainer) {
 }
 
 async function openCampaignModal(campaign, parentContainer) {
-    await showCampaignModal(campaign, async () => {
-        const grid = document.getElementById('campaigns-grid');
-        const statsSection = grid.previousElementSibling;
-        await loadStats(statsSection);
-        await loadCampaigns(grid, parentContainer);
-    });
+    console.log('Opening campaign modal, campaign:', campaign);
+    try {
+        await showCampaignModal(campaign, async () => {
+            console.log('Campaign saved, reloading...');
+            const grid = document.getElementById('campaigns-grid');
+            const statsSection = grid.previousElementSibling;
+            await loadStats(statsSection);
+            await loadCampaigns(grid, parentContainer);
+        });
+    } catch (error) {
+        console.error('Error opening campaign modal:', error);
+        alert('Error opening campaign form: ' + error.message);
+    }
 }

@@ -4,6 +4,7 @@ import { createCampaign, updateCampaign, createVariant, deleteVariant } from '..
 import { validateRequired, validateNumber, validateDateRange } from '../utils/validation.js';
 
 export async function showCampaignModal(campaign, onSave) {
+    console.log('showCampaignModal called with:', campaign);
     const isEdit = !!campaign;
     const title = isEdit ? 'Edit Campaign' : 'Create Campaign';
     
@@ -124,6 +125,7 @@ export async function showCampaignModal(campaign, onSave) {
     
     // Create modal first to get overlay reference
     const { overlay, modal } = createModal(title, form);
+    console.log('Modal created, overlay:', overlay);
     
     // Footer
     const footer = createElement('div', { className: 'modal-footer' });
@@ -201,15 +203,19 @@ export async function showCampaignModal(campaign, onSave) {
         };
         
         try {
+            console.log('Saving campaign:', campaignData);
             if (isEdit) {
                 await updateCampaign(campaign.id, campaignData);
+                console.log('Campaign updated');
             } else {
-                await createCampaign(campaignData);
+                const newCampaign = await createCampaign(campaignData);
+                console.log('Campaign created:', newCampaign);
             }
             
             document.body.removeChild(overlay);
             if (onSave) await onSave();
         } catch (error) {
+            console.error('Error saving campaign:', error);
             alert('Error saving campaign: ' + error.message);
         }
     });
