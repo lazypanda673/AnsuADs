@@ -213,15 +213,15 @@ export async function showCampaignModal(campaign, onSave) {
     }, ['Cancel']);
     footer.appendChild(cancelBtn);
 
-    // Move the submit button inside the form so submit event fires
+    // Create both buttons and put them in the footer
     const saveBtn = createElement('button', {
         type: 'submit',
         className: 'btn btn-primary'
     }, [isEdit ? 'Update' : 'Create']);
-    form.appendChild(saveBtn);
+    footer.appendChild(saveBtn);
 
-    // Append footer (with only Cancel) to modal
-    modal.appendChild(footer);
+    // Append footer to the form so both buttons are always visible and styled together
+    form.appendChild(footer);
 }
 
 function createVariantsSection(campaign) {
