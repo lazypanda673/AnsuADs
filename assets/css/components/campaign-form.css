@@ -67,6 +67,20 @@
     color: var(--text-secondary);
 }
 
+/* Campaign form footer buttons */
+.campaign-form .modal-footer {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: flex-end;
+}
+
+.campaign-form .modal-footer .btn {
+    min-width: 100px;
+}
+
 @media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;
