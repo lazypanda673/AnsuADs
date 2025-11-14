@@ -198,30 +198,31 @@ export async function showCampaignModal(campaign, onSave) {
         }
     });
     
-    // Create modal first to get overlay reference
-    const { overlay, modal } = createModal(title, form);
-    console.log('Modal created, overlay:', overlay);
-    
-    // Footer
+    // Footer with both buttons - add to form before creating modal
     const footer = createElement('div', { className: 'modal-footer' });
+    
     const cancelBtn = createElement('button', {
         type: 'button',
         className: 'btn btn-secondary',
-        onclick: () => {
-            document.body.removeChild(overlay);
+        onclick: (e) => {
+            e.preventDefault();
+            const overlay = document.querySelector('.modal-overlay');
+            if (overlay) document.body.removeChild(overlay);
         }
     }, ['Cancel']);
-    footer.appendChild(cancelBtn);
-
-    // Create both buttons and put them in the footer
+    
     const saveBtn = createElement('button', {
         type: 'submit',
         className: 'btn btn-primary'
     }, [isEdit ? 'Update' : 'Create']);
+    
+    footer.appendChild(cancelBtn);
     footer.appendChild(saveBtn);
-
-    // Append footer to the form so both buttons are always visible and styled together
     form.appendChild(footer);
+    
+    // Create modal with the complete form (including footer)
+    const { overlay, modal } = createModal(title, form);
+    console.log('Modal created, overlay:', overlay);
 }
 
 function createVariantsSection(campaign) {
