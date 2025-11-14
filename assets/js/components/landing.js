@@ -1,4 +1,4 @@
-import { navigate } from '../main.js';
+import { navigate } from '../router.js';
 
 export function showLanding() {
     const app = document.getElementById('app');

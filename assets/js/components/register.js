@@ -1,4 +1,4 @@
-import { navigate } from '../main.js';
+import { navigate } from '../router.js';
 import { register } from '../utils/auth.js';
 
 export function showRegister() {

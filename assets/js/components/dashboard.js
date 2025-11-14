@@ -1,29 +1,138 @@
 import { createElement } from '../utils/dom.js';
-import { createHeader } from './header.js';
+import { getAuthUser, logout } from '../utils/auth.js';
+import { navigate } from '../router.js';
 import { fetchCampaigns, fetchStats, deleteCampaign } from '../api/mockData.js';
 import { formatCurrency, formatDate } from '../utils/validation.js';
 import { showCampaignModal } from './campaignModal.js';
 import { showDeleteConfirm } from './modal.js';
 
-export async function showDashboard(container) {
-    // Add header
-    const header = createHeader();
-    container.appendChild(header);
+function createSidebar() {
+    const sidebar = createElement('aside', { className: 'dashboard-sidebar' });
     
-    // Main dashboard
-    const dashboard = createElement('main', { className: 'dashboard' });
-    const dashboardContainer = createElement('div', { className: 'container' });
+    // Sidebar header with logo
+    const sidebarHeader = createElement('div', { className: 'sidebar-header' });
+    const logo = createElement('a', {
+        href: '#',
+        className: 'sidebar-logo',
+        onclick: (e) => {
+            e.preventDefault();
+            navigate('/dashboard');
+        }
+    }, ['AnsuADs']);
+    sidebarHeader.appendChild(logo);
     
-    // Dashboard header
-    const dashboardHeader = createElement('div', { className: 'dashboard-header' });
+    // Sidebar navigation
+    const nav = createElement('nav', { className: 'sidebar-nav' });
+    
+    const navItems = [
+        { icon: '📊', label: 'Dashboard', route: '/dashboard', active: true },
+        { icon: '📢', label: 'Campaigns', route: '/dashboard', active: false },
+        { icon: '📈', label: 'Analytics', route: '/analytics', active: false },
+        { icon: '🎯', label: 'A/B Tests', route: '/ab-tests', active: false },
+        { icon: '⚙️', label: 'Settings', route: '/settings', active: false }
+    ];
+    
+    navItems.forEach(item => {
+        const navItem = createElement('a', {
+            href: '#',
+            className: `sidebar-nav-item ${item.active ? 'active' : ''}`,
+            onclick: (e) => {
+                e.preventDefault();
+                navigate(item.route);
+            }
+        });
+        
+        const icon = createElement('span', { className: 'sidebar-nav-icon' }, [item.icon]);
+        const label = createElement('span', {}, [item.label]);
+        
+        navItem.appendChild(icon);
+        navItem.appendChild(label);
+        nav.appendChild(navItem);
+    });
+    
+    // Sidebar footer with logout
+    const sidebarFooter = createElement('div', { className: 'sidebar-footer' });
+    const logoutBtn = createElement('button', {
+        className: 'sidebar-logout-btn',
+        onclick: () => {
+            logout();
+            navigate('/login');
+        }
+    });
+    logoutBtn.innerHTML = '<span class="nav-icon">🚪</span><span class="nav-text">Logout</span>';
+    sidebarFooter.appendChild(logoutBtn);
+    
+    sidebar.appendChild(sidebarHeader);
+    sidebar.appendChild(nav);
+    sidebar.appendChild(sidebarFooter);
+    
+    return sidebar;
+}
+
+function createTopBar() {
+    const user = getAuthUser();
+    const topbar = createElement('div', { className: 'dashboard-topbar' });
+    
+    const topbarLeft = createElement('div', { className: 'topbar-left' });
     const title = createElement('h1', { className: 'dashboard-title' }, ['Campaigns']);
+    topbarLeft.appendChild(title);
+    
+    const topbarRight = createElement('div', { className: 'topbar-right' });
+    
+    // Profile menu
+    const profileMenu = createElement('div', { className: 'profile-menu' });
+    
+    const profileAvatar = createElement('div', { className: 'profile-avatar' });
+    const initials = user?.name ? user.name.charAt(0).toUpperCase() : user?.email?.charAt(0).toUpperCase() || 'U';
+    profileAvatar.textContent = initials;
+    
+    const profileInfo = createElement('div', { className: 'profile-info' });
+    const profileName = createElement('div', { className: 'profile-name' }, [user?.name || 'User']);
+    const profileEmail = createElement('div', { className: 'profile-email' }, [user?.email || '']);
+    
+    profileInfo.appendChild(profileName);
+    profileInfo.appendChild(profileEmail);
+    
+    profileMenu.appendChild(profileAvatar);
+    profileMenu.appendChild(profileInfo);
+    profileMenu.style.cursor = 'pointer';
+    profileMenu.onclick = () => navigate('/profile');
+    
+    topbarRight.appendChild(profileMenu);
+    
+    topbar.appendChild(topbarLeft);
+    topbar.appendChild(topbarRight);
+    
+    return topbar;
+}
+
+export async function showDashboard(container) {
+    // Create dashboard layout with sidebar
+    const dashboard = createElement('div', { className: 'dashboard' });
+    
+    // Sidebar
+    const sidebar = createSidebar();
+    dashboard.appendChild(sidebar);
+    
+    // Main content area
+    const main = createElement('div', { className: 'dashboard-main' });
+    
+    // Top bar with profile
+    const topbar = createTopBar();
+    main.appendChild(topbar);
+    
+    // Dashboard content
+    const dashboardContent = createElement('div', { className: 'dashboard-content' });
+    
+    // Content header with Create Campaign button
+    const contentHeader = createElement('div', { className: 'content-header' });
     const createBtn = createElement('button', {
         className: 'btn btn-primary',
-        onclick: () => openCampaignModal(null, dashboardContainer)
+        onclick: () => openCampaignModal(null, dashboardContent)
     }, ['+ Create Campaign']);
+    contentHeader.appendChild(createBtn);
     
-    dashboardHeader.appendChild(title);
-    dashboardHeader.appendChild(createBtn);
+    dashboardContent.appendChild(contentHeader);
     
     // Filter and Search Section
     const filterSection = createElement('div', { className: 'filter-section' });
@@ -71,24 +180,25 @@ export async function showDashboard(container) {
     // Campaigns section
     const campaignsSection = createElement('div', { className: 'campaigns-grid', id: 'campaigns-grid' });
     
-    dashboardContainer.appendChild(dashboardHeader);
-    dashboardContainer.appendChild(filterSection);
-    dashboardContainer.appendChild(statsSection);
-    dashboardContainer.appendChild(campaignsSection);
-    dashboard.appendChild(dashboardContainer);
+    dashboardContent.appendChild(filterSection);
+    dashboardContent.appendChild(statsSection);
+    dashboardContent.appendChild(campaignsSection);
+    
+    main.appendChild(dashboardContent);
+    dashboard.appendChild(main);
     container.appendChild(dashboard);
     
     // Load data
     await loadStats(statsSection);
-    await loadCampaigns(campaignsSection, dashboardContainer);
+    await loadCampaigns(campaignsSection, dashboardContent);
     
     // Add event listeners for search and filter
     searchInput.addEventListener('input', (e) => {
-        filterCampaigns(e.target.value, filterSelect.value, campaignsSection, dashboardContainer);
+        filterCampaigns(e.target.value, filterSelect.value, campaignsSection, dashboardContent);
     });
     
     filterSelect.addEventListener('change', (e) => {
-        filterCampaigns(searchInput.value, e.target.value, campaignsSection, dashboardContainer);
+        filterCampaigns(searchInput.value, e.target.value, campaignsSection, dashboardContent);
     });
 }
 

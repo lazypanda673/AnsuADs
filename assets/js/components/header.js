@@ -1,6 +1,6 @@
 import { createElement } from '../utils/dom.js';
 import { getAuthUser, logout } from '../utils/auth.js';
-import { navigate } from '../main.js';
+import { navigate } from '../router.js';
 
 export function createHeader() {
     const user = getAuthUser();

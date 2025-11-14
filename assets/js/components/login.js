@@ -1,4 +1,4 @@
-import { navigate } from '../main.js';
+import { navigate } from '../router.js';
 import { login } from '../utils/auth.js';
 
 export function showLogin(container) {
