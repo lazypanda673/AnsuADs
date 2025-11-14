@@ -1,23 +1,40 @@
-// Mock Data API
+// Mock Data API with localStorage persistence
+
+const CAMPAIGNS_KEY = 'ansuads_campaigns';
 
 let mockCampaigns = [];
 
-// Load initial data
+// Load campaigns from localStorage or seed data
 export async function loadMockData() {
-    // Determine the correct base path
-    // On GitHub Pages: /AnsuADs/data/seed.json
-    // On local/root deployment: /data/seed.json
+    // First, try to load from localStorage
+    const storedData = localStorage.getItem(CAMPAIGNS_KEY);
+    
+    if (storedData) {
+        try {
+            mockCampaigns = JSON.parse(storedData);
+            console.log('✅ Loaded', mockCampaigns.length, 'campaigns from localStorage');
+            return { campaigns: mockCampaigns };
+        } catch (error) {
+            console.error('Error parsing localStorage data:', error);
+        }
+    }
+    
+    // If no localStorage data, load from seed.json
     const basePath = window.location.pathname.includes('/AnsuADs/') ? '/AnsuADs' : '';
     const path = `${basePath}/data/seed.json`;
     
     try {
-        console.log('Loading data from:', path);
+        console.log('Loading initial data from:', path);
         const response = await fetch(path);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         mockCampaigns = data.campaigns || [];
+        
+        // Save to localStorage for future use
+        saveCampaigns();
+        
         console.log('✅ Successfully loaded', mockCampaigns.length, 'campaigns from seed.json');
         return data;
     } catch (error) {
@@ -43,7 +60,18 @@ export async function loadMockData() {
                 variants: []
             }
         ];
+        saveCampaigns();
         return { campaigns: mockCampaigns };
+    }
+}
+
+// Save campaigns to localStorage
+function saveCampaigns() {
+    try {
+        localStorage.setItem(CAMPAIGNS_KEY, JSON.stringify(mockCampaigns));
+        console.log('💾 Saved campaigns to localStorage');
+    } catch (error) {
+        console.error('Error saving to localStorage:', error);
     }
 }
 
@@ -68,9 +96,17 @@ export async function createCampaign(campaignData) {
         id: Math.max(0, ...mockCampaigns.map(c => c.id)) + 1,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
+        metrics: {
+            impressions: 0,
+            clicks: 0,
+            ctr: 0,
+            conversions: 0,
+            cost: 0
+        },
         variants: []
     };
     mockCampaigns.push(newCampaign);
+    saveCampaigns(); // Persist to localStorage
     return newCampaign;
 }
 
@@ -87,6 +123,7 @@ export async function updateCampaign(id, campaignData) {
         updated_at: new Date().toISOString()
     };
     
+    saveCampaigns(); // Persist to localStorage
     return mockCampaigns[index];
 }
 
@@ -97,6 +134,7 @@ export async function deleteCampaign(id) {
     }
     
     mockCampaigns.splice(index, 1);
+    saveCampaigns(); // Persist to localStorage
     return true;
 }
 
