@@ -154,7 +154,7 @@ export async function showSettings(container) {
         <button class="btn btn-primary" onclick="alert('Settings saved successfully!')">
             <i class="fas fa-save"></i> Save All Changes
         </button>
-        <button class="btn btn-secondary" onclick="window.location.reload()">
+        <button class="btn btn-secondary" id="reset-settings-btn">
             <i class="fas fa-undo"></i> Reset
         </button>
     `;
@@ -168,4 +168,23 @@ export async function showSettings(container) {
     dashboard.appendChild(sidebar);
     dashboard.appendChild(main);
     container.appendChild(dashboard);
+    
+    // Add reset button event listener
+    const resetBtn = container.querySelector('#reset-settings-btn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            // Reset all form fields to their original values
+            const inputs = container.querySelectorAll('input[type=\"text\"], input[type=\"email\"], select');
+            inputs.forEach(input => {
+                if (input.defaultValue) {
+                    input.value = input.defaultValue;
+                }
+            });
+            const checkboxes = container.querySelectorAll('input[type=\"checkbox\"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = checkbox.defaultChecked;
+            });
+            alert('Settings reset to original values');
+        });
+    }
 }

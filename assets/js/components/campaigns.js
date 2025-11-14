@@ -11,7 +11,7 @@ function createSidebar(activeRoute = '/campaigns') {
     
     const sidebarHeader = createElement('div', { className: 'sidebar-header' });
     const logo = createElement('div', { className: 'sidebar-logo' });
-    logo.innerHTML = '<span class="logo-icon">🎯</span> AnsuADs';
+    logo.innerHTML = '<span class="logo-icon">📊</span> AnsuADs';
     logo.style.cursor = 'pointer';
     logo.onclick = () => navigate('/dashboard');
     sidebarHeader.appendChild(logo);
@@ -46,16 +46,6 @@ function createSidebar(activeRoute = '/campaigns') {
     
     const sidebarFooter = createElement('div', { className: 'sidebar-footer' });
     
-    const profileLink = createElement('a', {
-        href: '#',
-        className: 'sidebar-nav-item',
-        onclick: (e) => {
-            e.preventDefault();
-            navigate('/profile');
-        }
-    });
-    profileLink.innerHTML = '<span class="sidebar-nav-icon">👤</span><span>Profile</span>';
-    
     const logoutBtn = createElement('button', {
         className: 'sidebar-logout-btn',
         onclick: () => {
@@ -65,7 +55,6 @@ function createSidebar(activeRoute = '/campaigns') {
     });
     logoutBtn.innerHTML = '<span class="nav-icon">🚪</span><span class="nav-text">Logout</span>';
     
-    sidebarFooter.appendChild(profileLink);
     sidebarFooter.appendChild(logoutBtn);
     
     sidebar.appendChild(sidebarHeader);
