@@ -123,32 +123,10 @@ export async function showCampaignModal(campaign, onSave) {
         form.appendChild(variantsSection);
     }
     
-    // Create modal first to get overlay reference
-    const { overlay, modal } = createModal(title, form);
-    console.log('Modal created, overlay:', overlay);
-    
-    // Footer
-    const footer = createElement('div', { className: 'modal-footer' });
-    
-    const cancelBtn = createElement('button', {
-        type: 'button',
-        className: 'btn btn-secondary',
-        onclick: () => {
-            document.body.removeChild(overlay);
-        }
-    }, ['Cancel']);
-    
-    const saveBtn = createElement('button', {
-        type: 'submit',
-        className: 'btn btn-primary'
-    }, [isEdit ? 'Update' : 'Create']);
-    
-    footer.appendChild(cancelBtn);
-    footer.appendChild(saveBtn);
-    
-    // Form submit
+    // Form submit handler
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log('Form submitted');
         
         // Clear errors
         document.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
@@ -219,6 +197,29 @@ export async function showCampaignModal(campaign, onSave) {
             alert('Error saving campaign: ' + error.message);
         }
     });
+    
+    // Create modal first to get overlay reference
+    const { overlay, modal } = createModal(title, form);
+    console.log('Modal created, overlay:', overlay);
+    
+    // Footer
+    const footer = createElement('div', { className: 'modal-footer' });
+    
+    const cancelBtn = createElement('button', {
+        type: 'button',
+        className: 'btn btn-secondary',
+        onclick: () => {
+            document.body.removeChild(overlay);
+        }
+    }, ['Cancel']);
+    
+    const saveBtn = createElement('button', {
+        type: 'submit',
+        className: 'btn btn-primary'
+    }, [isEdit ? 'Update' : 'Create']);
+    
+    footer.appendChild(cancelBtn);
+    footer.appendChild(saveBtn);
     
     // Append footer to modal
     modal.appendChild(footer);
