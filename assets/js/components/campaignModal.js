@@ -204,7 +204,6 @@ export async function showCampaignModal(campaign, onSave) {
     
     // Footer
     const footer = createElement('div', { className: 'modal-footer' });
-    
     const cancelBtn = createElement('button', {
         type: 'button',
         className: 'btn btn-secondary',
@@ -212,16 +211,16 @@ export async function showCampaignModal(campaign, onSave) {
             document.body.removeChild(overlay);
         }
     }, ['Cancel']);
-    
+    footer.appendChild(cancelBtn);
+
+    // Move the submit button inside the form so submit event fires
     const saveBtn = createElement('button', {
         type: 'submit',
         className: 'btn btn-primary'
     }, [isEdit ? 'Update' : 'Create']);
-    
-    footer.appendChild(cancelBtn);
-    footer.appendChild(saveBtn);
-    
-    // Append footer to modal
+    form.appendChild(saveBtn);
+
+    // Append footer (with only Cancel) to modal
     modal.appendChild(footer);
 }
 
