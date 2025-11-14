@@ -1,6 +1,6 @@
 import { createElement } from '../utils/dom.js';
 
-export function createModal(title, content, onClose) {
+export function createModal(title, content, actions = null, onClose = null) {
     const overlay = createElement('div', { className: 'modal-overlay' });
     
     const modal = createElement('div', { className: 'modal' });
@@ -30,6 +30,30 @@ export function createModal(title, content, onClose) {
     modal.appendChild(header);
     modal.appendChild(body);
     
+    // Footer with action buttons
+    if (actions && actions.length > 0) {
+        const footer = createElement('div', { className: 'modal-footer' });
+        
+        actions.forEach(action => {
+            const btn = createElement('button', {
+                className: action.className || 'btn btn-secondary',
+                onclick: () => {
+                    if (action.onClick) {
+                        const result = action.onClick();
+                        if (result !== false) {
+                            document.body.removeChild(overlay);
+                        }
+                    } else {
+                        document.body.removeChild(overlay);
+                    }
+                }
+            }, [action.label]);
+            footer.appendChild(btn);
+        });
+        
+        modal.appendChild(footer);
+    }
+    
     // Close on overlay click
     overlay.addEventListener('click', (e) => {
         if (e.target === overlay) {
@@ -50,28 +74,23 @@ export function showDeleteConfirm(title, message) {
         const messageEl = createElement('p', {}, [message]);
         content.appendChild(messageEl);
         
-        const footer = createElement('div', { className: 'modal-footer' });
-        
-        const cancelBtn = createElement('button', {
-            className: 'btn btn-secondary',
-            onclick: () => {
-                document.body.removeChild(overlay);
-                resolve(false);
+        const actions = [
+            {
+                label: 'Cancel',
+                className: 'btn btn-secondary',
+                onClick: () => {
+                    resolve(false);
+                }
+            },
+            {
+                label: 'Delete',
+                className: 'btn btn-danger',
+                onClick: () => {
+                    resolve(true);
+                }
             }
-        }, ['Cancel']);
+        ];
         
-        const confirmBtn = createElement('button', {
-            className: 'btn btn-danger',
-            onclick: () => {
-                document.body.removeChild(overlay);
-                resolve(true);
-            }
-        }, ['Delete']);
-        
-        footer.appendChild(cancelBtn);
-        footer.appendChild(confirmBtn);
-        
-        const { overlay, modal } = createModal(title, content, () => resolve(false));
-        modal.appendChild(footer);
+        createModal(title, content, actions, () => resolve(false));
     });
 }

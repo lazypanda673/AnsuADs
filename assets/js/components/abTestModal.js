@@ -35,6 +35,51 @@ export async function showABTestModal(test, onSave) {
     variantsGroup.appendChild(variantsLabel);
     variantsGroup.appendChild(variantsInput);
     
+    // Date row
+    const row1 = createElement('div', { className: 'form-row' });
+    
+    const startDateGroup = createElement('div', { className: 'form-group' });
+    const startLabel = createElement('label', { className: 'form-label', for: 'test-start' }, ['Start Date *']);
+    const startInput = createElement('input', {
+        type: 'date',
+        id: 'test-start',
+        className: 'form-input',
+        value: test?.startDate || ''
+    });
+    startDateGroup.appendChild(startLabel);
+    startDateGroup.appendChild(startInput);
+    
+    const endDateGroup = createElement('div', { className: 'form-group' });
+    const endLabel = createElement('label', { className: 'form-label', for: 'test-end' }, ['End Date *']);
+    const endInput = createElement('input', {
+        type: 'date',
+        id: 'test-end',
+        className: 'form-input',
+        value: test?.endDate || ''
+    });
+    endDateGroup.appendChild(endLabel);
+    endDateGroup.appendChild(endInput);
+    
+    row1.appendChild(startDateGroup);
+    row1.appendChild(endDateGroup);
+    
+    // Target Metric
+    const metricGroup = createElement('div', { className: 'form-group' });
+    const metricLabel = createElement('label', { className: 'form-label', for: 'test-metric' }, ['Target Metric *']);
+    const metricSelect = createElement('select', {
+        id: 'test-metric',
+        className: 'form-select'
+    });
+    
+    const metrics = ['Clicks', 'Conversions', 'CTR', 'Revenue'];
+    metrics.forEach(metric => {
+        const option = createElement('option', { value: metric }, [metric]);
+        if (test?.targetMetric === metric) option.selected = true;
+        metricSelect.appendChild(option);
+    });
+    metricGroup.appendChild(metricLabel);
+    metricGroup.appendChild(metricSelect);
+    
     // Description
     const descGroup = createElement('div', { className: 'form-group' });
     const descLabel = createElement('label', { className: 'form-label', for: 'test-description' }, ['Description']);
@@ -69,27 +114,35 @@ export async function showABTestModal(test, onSave) {
     // Assemble form
     form.appendChild(nameGroup);
     form.appendChild(variantsGroup);
+    form.appendChild(row1);
+    form.appendChild(metricGroup);
     form.appendChild(descGroup);
     form.appendChild(statusGroup);
     
     // Form submit handler
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
+        if (e) e.preventDefault();
         
         const name = nameInput.value.trim();
         const variants = parseInt(variantsInput.value);
+        const startDate = startInput.value;
+        const endDate = endInput.value;
+        const targetMetric = metricSelect.value;
         const description = descInput.value.trim();
         const status = statusSelect.value;
         
-        if (!name || !variants || variants < 2) {
+        if (!name || !variants || variants < 2 || !startDate || !endDate || !targetMetric) {
             alert('Please fill in all required fields');
-            return;
+            return false;
         }
         
         const testData = {
             id: test?.id || Date.now(),
             name,
             variants,
+            startDate,
+            endDate,
+            targetMetric,
             description,
             status,
             impressions: test?.impressions || 0,
@@ -114,20 +167,24 @@ export async function showABTestModal(test, onSave) {
         if (onSave) {
             await onSave();
         }
-    });
+        
+        return true;
+    };
+    
+    form.addEventListener('submit', handleSubmit);
     
     const actions = [
-        {
-            label: isEdit ? 'Save Changes' : 'Create Test',
-            className: 'btn btn-primary',
-            onClick: () => {
-                form.dispatchEvent(new Event('submit'));
-            }
-        },
         {
             label: 'Cancel',
             className: 'btn btn-secondary',
             onClick: () => {}
+        },
+        {
+            label: isEdit ? 'Save Changes' : 'Create Test',
+            className: 'btn btn-primary',
+            onClick: () => {
+                return handleSubmit();
+            }
         }
     ];
     

@@ -13,7 +13,54 @@ export async function showABTests(container) {
     
     // Load tests from localStorage
     const loadTests = () => {
-        const tests = JSON.parse(localStorage.getItem('ansuads_abtests') || '[]');
+        let tests = JSON.parse(localStorage.getItem('ansuads_abtests') || '[]');
+        
+        // If no tests exist, add sample data
+        if (tests.length === 0) {
+            tests = [
+                {
+                    id: 1,
+                    name: 'Headline Test - Summer Sale',
+                    variants: 2,
+                    startDate: '2024-11-01',
+                    endDate: '2024-12-01',
+                    targetMetric: 'Clicks',
+                    description: 'Testing different headlines for summer sale campaign',
+                    status: 'Running',
+                    impressions: 5420,
+                    conversions: 234,
+                    winner: null
+                },
+                {
+                    id: 2,
+                    name: 'CTA Button Color Test',
+                    variants: 3,
+                    startDate: '2024-10-15',
+                    endDate: '2024-11-15',
+                    targetMetric: 'Conversions',
+                    description: 'Testing blue vs green vs orange CTA buttons',
+                    status: 'Completed',
+                    impressions: 8900,
+                    conversions: 445,
+                    winner: 'Variant B'
+                },
+                {
+                    id: 3,
+                    name: 'Product Image Layout',
+                    variants: 2,
+                    startDate: '2024-11-10',
+                    endDate: '2024-12-10',
+                    targetMetric: 'CTR',
+                    description: 'Grid layout vs carousel for product images',
+                    status: 'Running',
+                    impressions: 2150,
+                    conversions: 87,
+                    winner: null
+                }
+            ];
+            localStorage.setItem('ansuads_abtests', JSON.stringify(tests));
+        }
+        
         return tests;
     };
     
