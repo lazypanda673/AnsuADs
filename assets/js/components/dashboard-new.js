@@ -124,37 +124,38 @@ function createPerformanceChart() {
 
     const maxValue = Math.max(...data.map(d => d.impressions));
 
-    const chartBars = createElement('div', { className: 'chart-bars' });
-    const chartLabels = createElement('div', { className: 'chart-labels-row' });
+    // Create chart wrapper
+    const chartWrapper = createElement('div', { className: 'performance-chart-wrapper' });
 
     data.forEach(day => {
-        const barGroup = createElement('div', { className: 'chart-bar-group' });
+        const dayColumn = createElement('div', { className: 'day-column' });
 
-        const barContainer = createElement('div', { className: 'chart-bar-container' });
+        // Bars container
+        const barsContainer = createElement('div', { className: 'bars-container' });
 
-        // Three bars for impressions, clicks, conversions
+        // Three bars
         const impressionsBar = createElement('div', { className: 'chart-bar bar-impressions' });
         impressionsBar.style.height = `${(day.impressions / maxValue) * 100}%`;
-        impressionsBar.setAttribute('data-value', day.impressions.toLocaleString());
+        impressionsBar.setAttribute('title', `${day.impressions.toLocaleString()} impressions`);
 
         const clicksBar = createElement('div', { className: 'chart-bar bar-clicks' });
         clicksBar.style.height = `${(day.clicks / maxValue) * 100}%`;
-        clicksBar.setAttribute('data-value', day.clicks.toLocaleString());
+        clicksBar.setAttribute('title', `${day.clicks.toLocaleString()} clicks`);
 
         const conversionsBar = createElement('div', { className: 'chart-bar bar-conversions' });
         conversionsBar.style.height = `${(day.conversions / maxValue) * 100}%`;
-        conversionsBar.setAttribute('data-value', day.conversions.toLocaleString());
+        conversionsBar.setAttribute('title', `${day.conversions.toLocaleString()} conversions`);
 
-        barContainer.appendChild(impressionsBar);
-        barContainer.appendChild(clicksBar);
-        barContainer.appendChild(conversionsBar);
+        barsContainer.appendChild(impressionsBar);
+        barsContainer.appendChild(clicksBar);
+        barsContainer.appendChild(conversionsBar);
 
-        barGroup.appendChild(barContainer);
-        chartBars.appendChild(barGroup);
+        // Day label
+        const dayLabel = createElement('div', { className: 'day-label' }, [day.day]);
 
-        // Add label to separate row
-        const label = createElement('div', { className: 'chart-label' }, [day.day]);
-        chartLabels.appendChild(label);
+        dayColumn.appendChild(barsContainer);
+        dayColumn.appendChild(dayLabel);
+        chartWrapper.appendChild(dayColumn);
     });
 
     const chartLegend = createElement('div', { className: 'chart-legend' });
@@ -173,8 +174,7 @@ function createPerformanceChart() {
         </div>
     `;
 
-    chartContent.appendChild(chartBars);
-    chartContent.appendChild(chartLabels);
+    chartContent.appendChild(chartWrapper);
     chartContent.appendChild(chartLegend);
 
     chartContainer.appendChild(chartHeader);

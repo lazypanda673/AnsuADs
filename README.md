@@ -345,12 +345,21 @@ Email: <sumitsonata673@gmail.com>
 ## 📊 Project Stats
 
 - **Version**: 1.0 (Phase 1 Complete)
-- **Last Updated**: November 2025
-- **Lines of Code**: ~3000+ (JS + CSS)
-- **Components**: 14 major UI components
-- **Supported Browsers**: Chrome, Firefox, Safari, Edge (latest versions)
-- **Bundle Size**: ~50KB (uncompressed, no dependencies)
+- **Last Updated**: November 15, 2025
+- **Lines of Code**: ~3500+ (JS + CSS)
+- **Components**: 14 UI components + reusable utilities
+- **Supported Browsers**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+- **Bundle Size**: ~60KB (uncompressed, zero dependencies)
+- **Currency**: Indian Rupees (₹) - localized for Indian market
+
+## 🇮🇳 Localization
+
+This project is tailored for the Indian market:
+- Currency display in INR (₹)
+- Indian number formatting (lakhs/crores where applicable)
+- Suitable for small businesses and startups in India
+- Can be easily adapted for other markets
 
 ---
 
-**Note**: This is a Phase 1 prototype focused on UI/UX and client-side architecture. Backend integration and platform APIs are planned for Phase 2 development.
+**Note**: This is a Phase 1 prototype demonstrating UI/UX excellence and client-side architecture. Backend integration, real platform APIs, and advanced features are planned for Phase 2 development.

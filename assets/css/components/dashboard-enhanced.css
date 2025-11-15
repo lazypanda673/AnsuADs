@@ -309,45 +309,40 @@
     gap: 16px;
 }
 
-.chart-bars {
+/* Performance Chart - Redesigned */
+.performance-chart-wrapper {
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
-    height: 200px;
-    gap: 12px;
-    padding: 0 8px;
-    margin-bottom: 8px;
+    justify-content: space-around;
+    height: 250px;
+    gap: 16px;
+    padding: 16px 0;
 }
 
-.chart-bar-group {
+.day-column {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0;
-    min-width: 0;
-    position: relative;
     height: 100%;
+    gap: 8px;
 }
 
-.chart-labels-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    padding: 0 8px;
-    margin-top: 12px;
-    margin-bottom: 16px;
-}
-
-.chart-bar-container {
-    width: 100%;
+.bars-container {
     flex: 1;
+    width: 100%;
     display: flex;
     align-items: flex-end;
     justify-content: center;
     gap: 4px;
-    position: relative;
+}
+
+.day-label {
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+    text-align: center;
+    padding-top: 4px;
 }
 
 .chart-bar {
@@ -355,33 +350,12 @@
     min-height: 8px;
     border-radius: 4px 4px 0 0;
     transition: all 0.3s ease;
-    position: relative;
     cursor: pointer;
 }
 
 .chart-bar:hover {
     opacity: 0.8;
-}
-
-.chart-bar::after {
-    content: attr(data-value);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-}
-
-.chart-bar:hover::after {
-    opacity: 1;
+    transform: translateY(-2px);
 }
 
 .bar-impressions {
@@ -394,14 +368,6 @@
 
 .bar-conversions {
     background: linear-gradient(180deg, #10b981 0%, #059669 100%);
-}
-
-.chart-label {
-    flex: 1;
-    font-size: 0.875rem;
-    color: #64748b;
-    font-weight: 500;
-    text-align: center;
 }
 
 .chart-legend {
