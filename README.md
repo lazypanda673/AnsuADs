@@ -7,30 +7,35 @@ A modern, browser-based campaign management prototype built with vanilla JavaScr
 ## ✨ Key Features
 
 ### 🔐 **Privacy-First Architecture**
+
 - All data stays on your device (localStorage)
 - No external servers or data transmission
 - Zero tracking, zero analytics
 - GDPR compliant by design
 
 ### 📝 **Campaign Planning & Management**
+
 - Create, edit, and organize campaigns
 - Multi-platform planning (Google Ads, Facebook, LinkedIn, etc.)
 - Campaign status tracking (Active, Paused, Completed)
 - Budget and date range management
 
 ### 📈 **Analytics Dashboard**
+
 - Real-time metric calculations
 - 7-day performance trend visualization
 - KPI cards with percentage changes
 - Interactive bar chart displays
 
 ### 🧪 **A/B Test Configuration**
+
 - Plan and organize A/B test scenarios
 - Track variants with target metrics
 - Date-based test scheduling
 - Test status management
 
 ### 🎨 **Modern UI/UX**
+
 - Responsive design (mobile to desktop)
 - Gradient-based visual design
 - Intuitive navigation and workflows
@@ -47,7 +52,7 @@ A modern, browser-based campaign management prototype built with vanilla JavaScr
 
 ## 📁 Project Structure
 
-```
+``` bash
 AnsuADs/
 ├── index.html                          # Entry point
 ├── 404.html                            # GitHub Pages routing
@@ -94,12 +99,14 @@ AnsuADs/
 ### Installation & Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/lazypanda673/AnsuADs.git
    cd AnsuADs
    ```
 
 2. **Open in VS Code**
+
    ```bash
    code .
    ```
@@ -138,6 +145,7 @@ The system demonstrates login flows without actual authentication.
 ### Dashboard Navigation
 
 After logging in, access different sections via the sidebar:
+
 - **📊 Dashboard** - Overview with quick stats and charts
 - **📣 Campaigns** - Full campaign CRUD management
 - **📈 Analytics** - Performance metrics and trends
@@ -187,18 +195,21 @@ After logging in, access different sections via the sidebar:
 ## 🎯 Use Cases
 
 ### For Students
+
 - Learn campaign management concepts
 - Understand advertising metrics and analytics
 - Practice UI/UX with a real-world application
 - Portfolio project demonstrating technical skills
 
 ### For Marketers
+
 - Plan campaign strategies before platform execution
 - Organize multiple campaigns visually
 - Prototype budget allocations
 - Present campaign ideas to stakeholders
 
 ### For Developers
+
 - Study modular vanilla JavaScript architecture
 - Learn client-side routing patterns
 - Understand localStorage persistence
@@ -223,6 +234,7 @@ After logging in, access different sections via the sidebar:
 ## 📅 Roadmap (Phase 2)
 
 ### Planned Features
+
 - ✅ Backend API with database integration
 - ✅ Real platform API connections (Google Ads, Facebook Marketing API)
 - ✅ Multi-user support with role-based access control
@@ -239,6 +251,7 @@ After logging in, access different sections via the sidebar:
 ## 🛠️ Development
 
 ### Code Style
+
 - **Modular ES6**: Component-based architecture
 - **Vanilla JavaScript**: No frameworks or libraries
 - **CSS Variables**: Centralized theming in `base.css`
@@ -253,6 +266,7 @@ After logging in, access different sections via the sidebar:
 5. **Add styles** in `assets/css/components/`
 
 Example:
+
 ```javascript
 // assets/js/components/myFeature.js
 import { createElement } from '../utils/dom.js';
@@ -269,6 +283,7 @@ export async function showMyFeature(container) {
 
 **Change Brand Colors**:
 Edit `assets/css/base.css`:
+
 ```css
 :root {
     --primary-color: #2563eb;
@@ -279,6 +294,7 @@ Edit `assets/css/base.css`:
 
 **Modify Logo**:
 Update emoji in `assets/js/utils/layout.js` and component files:
+
 ```javascript
 const logo = createElement('div', { className: 'logo' });
 logo.innerHTML = '📊 AnsuADs';  // Change emoji here
@@ -287,21 +303,25 @@ logo.innerHTML = '📊 AnsuADs';  // Change emoji here
 ## 🐛 Troubleshooting
 
 ### Live Server Issues
+
 - Ensure you installed "Live Server" by Ritwick Dey
 - Right-click on `index.html` (not other files)
 - Check that port 5500 isn't in use
 
 ### Module Loading Errors
+
 - Use Live Server (not `file://` protocol)
 - Check browser console for path errors
 - Ensure browser supports ES modules (all modern browsers do)
 
 ### Data Not Saving
+
 - Check browser localStorage quota (usually 5-10MB)
 - Ensure localStorage is enabled in browser settings
 - Clear localStorage if corrupted: `localStorage.clear()`
 
 ### Blank Page
+
 - Open browser console (F12) to see errors
 - Verify all files are in correct directories
 - Check network tab for failed file loads
@@ -314,7 +334,7 @@ This project is created for **educational purposes** as part of a Software Engin
 
 **Sumit Kumar**  
 Techno Main Salt Lake  
-Email: sumitsonata673@gmail.com
+Email: <sumitsonata673@gmail.com>
 
 ## 🙏 Acknowledgments
 
