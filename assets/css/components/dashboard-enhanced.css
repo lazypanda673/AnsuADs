@@ -239,12 +239,6 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    transition: all 0.2s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .stat-icon {
@@ -339,8 +333,10 @@
 .chart-labels-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 12px;
     padding: 0 8px;
+    margin-top: 12px;
     margin-bottom: 16px;
 }
 

@@ -109,18 +109,22 @@ export function showLanding() {
                 <div class="container">
                     <div class="stats-grid">
                         <div class="stat-card">
+                            <div class="stat-icon">📊</div>
                             <div class="stat-number">10K+</div>
                             <div class="stat-label">Campaigns Managed</div>
                         </div>
                         <div class="stat-card">
+                            <div class="stat-icon">👁️</div>
                             <div class="stat-number">50M+</div>
                             <div class="stat-label">Impressions Delivered</div>
                         </div>
                         <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
                             <div class="stat-number">95%</div>
                             <div class="stat-label">Client Satisfaction</div>
                         </div>
                         <div class="stat-card">
+                            <div class="stat-icon">🎯</div>
                             <div class="stat-number">24/7</div>
                             <div class="stat-label">Support Available</div>
                         </div>
@@ -140,12 +144,44 @@ export function showLanding() {
 
             <footer class="landing-footer">
                 <div class="container">
-                    <div class="footer-content">
-                        <div class="footer-logo">
-                            <span class="logo-icon">📊</span>
-                            <span class="logo-text">AnsuADs</span>
+                    <div class="footer-grid">
+                        <div class="footer-col">
+                            <div class="footer-logo">
+                                <span class="logo-icon">📊</span>
+                                <span class="logo-text">AnsuADs</span>
+                            </div>
+                            <p class="footer-desc">Transform your advertisement campaigns with our powerful management platform.</p>
                         </div>
-                        <p class="footer-text">© 2025 AnsuADs. All rights reserved.</p>
+                        <div class="footer-col">
+                            <h4 class="footer-heading">Product</h4>
+                            <ul class="footer-links">
+                                <li><a href="#features">Features</a></li>
+                                <li><a href="#pricing">Pricing</a></li>
+                                <li><a href="#integrations">Integrations</a></li>
+                                <li><a href="#analytics">Analytics</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <h4 class="footer-heading">Company</h4>
+                            <ul class="footer-links">
+                                <li><a href="#about">About Us</a></li>
+                                <li><a href="#careers">Careers</a></li>
+                                <li><a href="#contact">Contact</a></li>
+                                <li><a href="#blog">Blog</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <h4 class="footer-heading">Support</h4>
+                            <ul class="footer-links">
+                                <li><a href="#docs">Documentation</a></li>
+                                <li><a href="#help">Help Center</a></li>
+                                <li><a href="#api">API Reference</a></li>
+                                <li><a href="#status">System Status</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <p class="footer-text">© 2025 AnsuADs. All rights reserved. | Made with ❤️ in India</p>
                     </div>
                 </div>
             </footer>
