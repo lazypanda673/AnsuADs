@@ -125,6 +125,7 @@ function createPerformanceChart() {
     const maxValue = Math.max(...data.map(d => d.impressions));
 
     const chartBars = createElement('div', { className: 'chart-bars' });
+    const chartLabels = createElement('div', { className: 'chart-labels-row' });
 
     data.forEach(day => {
         const barGroup = createElement('div', { className: 'chart-bar-group' });
@@ -148,11 +149,12 @@ function createPerformanceChart() {
         barContainer.appendChild(clicksBar);
         barContainer.appendChild(conversionsBar);
 
-        const label = createElement('div', { className: 'chart-label' }, [day.day]);
-
         barGroup.appendChild(barContainer);
-        barGroup.appendChild(label);
         chartBars.appendChild(barGroup);
+
+        // Add label to separate row
+        const label = createElement('div', { className: 'chart-label' }, [day.day]);
+        chartLabels.appendChild(label);
     });
 
     const chartLegend = createElement('div', { className: 'chart-legend' });
@@ -172,6 +174,7 @@ function createPerformanceChart() {
     `;
 
     chartContent.appendChild(chartBars);
+    chartContent.appendChild(chartLabels);
     chartContent.appendChild(chartLegend);
 
     chartContainer.appendChild(chartHeader);
