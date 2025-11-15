@@ -355,6 +355,7 @@ Email: <sumitsonata673@gmail.com>
 ## 🇮🇳 Localization
 
 This project is tailored for the Indian market:
+
 - Currency display in INR (₹)
 - Indian number formatting (lakhs/crores where applicable)
 - Suitable for small businesses and startups in India
