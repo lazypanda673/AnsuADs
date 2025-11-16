@@ -20,49 +20,60 @@ export async function loadMockData() {
     }
     
     // If no localStorage data, load from seed.json
+    // Detect if we're in a subdirectory (GitHub Pages) or running locally
     const basePath = window.location.pathname.includes('/AnsuADs/') ? '/AnsuADs' : '';
-    const path = `${basePath}/data/seed.json`;
+    const relativePath = './data/seed.json'; // Relative to index.html
+    const absolutePath = `${basePath}/data/seed.json`; // Absolute path for GitHub Pages
     
-    try {
-        console.log('Loading initial data from:', path);
-        const response = await fetch(path);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        mockCampaigns = data.campaigns || [];
-        
-        // Save to localStorage for future use
-        saveCampaigns();
-        
-        console.log('✅ Successfully loaded', mockCampaigns.length, 'campaigns from seed.json');
-        return data;
-    } catch (error) {
-        console.error('❌ Error loading seed.json:', error);
-        console.warn('⚠️  Make sure you start Live Server from index.html or the project root');
-        // If loading fails, use fallback data
-        mockCampaigns = [
-            {
-                id: 1,
-                name: "Sample Campaign (Fallback)",
-                objective: "Drive Sales",
-                budget: 5000.00,
-                start_date: "2025-06-01",
-                end_date: "2025-08-31",
-                status: "active",
-                metrics: {
-                    impressions: 125000,
-                    clicks: 3500,
-                    ctr: 2.8,
-                    conversions: 280,
-                    cost: 3200.00
-                },
-                variants: []
+    // Try relative path first (for local development), then absolute path
+    const pathsToTry = basePath ? [absolutePath, relativePath] : [relativePath, absolutePath];
+    
+    for (const path of pathsToTry) {
+        try {
+            console.log('Attempting to load initial data from:', path);
+            const response = await fetch(path);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        ];
-        saveCampaigns();
-        return { campaigns: mockCampaigns };
+            const data = await response.json();
+            mockCampaigns = data.campaigns || [];
+            
+            // Save to localStorage for future use
+            saveCampaigns();
+            
+            console.log('✅ Successfully loaded', mockCampaigns.length, 'campaigns from', path);
+            return data;
+        } catch (error) {
+            console.warn(`⚠️  Failed to load from ${path}:`, error.message);
+            // Continue to next path
+        }
     }
+    
+    // If all paths fail, use fallback data
+    console.error('❌ Could not load seed.json from any path');
+    console.warn('⚠️  Using fallback data. Make sure data/seed.json exists');
+    mockCampaigns = [
+        {
+            id: 1,
+            name: "Sample Campaign (Fallback)",
+            objective: "Drive Sales",
+            budget: 5000.00,
+            start_date: "2025-06-01",
+            end_date: "2025-08-31",
+            status: "active",
+            target_audience: "General audience",
+            metrics: {
+                impressions: 125000,
+                clicks: 3500,
+                ctr: 2.8,
+                conversions: 280,
+                cost: 3200.00
+            },
+            variants: []
+        }
+    ];
+    saveCampaigns();
+    return { campaigns: mockCampaigns };
 }
 
 // Save campaigns to localStorage
