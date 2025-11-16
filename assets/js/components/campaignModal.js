@@ -42,7 +42,7 @@ export async function showCampaignModal(campaign, onSave) {
     const row1 = createElement('div', { className: 'form-row' });
     
     const budgetGroup = createElement('div', { className: 'form-group' });
-    const budgetLabel = createElement('label', { className: 'form-label', for: 'campaign-budget' }, ['Budget (USD) *']);
+    const budgetLabel = createElement('label', { className: 'form-label', for: 'campaign-budget' }, ['Budget (₹) *']);
     const budgetInput = createElement('input', {
         type: 'number',
         id: 'campaign-budget',

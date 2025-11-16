@@ -1,0 +1,94 @@
+{
+  "campaigns": [
+    {
+      "id": 1,
+      "name": "Summer Sale 2025",
+      "objective": "Drive Sales",
+      "budget": 50000.00,
+      "start_date": "2025-06-01",
+      "end_date": "2025-08-31",
+      "status": "active",
+      "target_audience": "Young adults 18-35 interested in fashion",
+      "metrics": {
+        "impressions": 125000,
+        "clicks": 3500,
+        "ctr": 2.8,
+        "conversions": 280,
+        "cost": 32000.00
+      },
+      "variants": []
+    },
+    {
+      "id": 2,
+      "name": "Product Launch Campaign",
+      "objective": "Brand Awareness",
+      "budget": 75000.00,
+      "start_date": "2025-07-01",
+      "end_date": "2025-09-30",
+      "status": "active",
+      "target_audience": "Tech enthusiasts, early adopters",
+      "metrics": {
+        "impressions": 250000,
+        "clicks": 6200,
+        "ctr": 2.48,
+        "conversions": 450,
+        "cost": 58000.00
+      },
+      "variants": []
+    },
+    {
+      "id": 3,
+      "name": "Holiday Special Offer",
+      "objective": "Lead Generation",
+      "budget": 30000.00,
+      "start_date": "2025-11-15",
+      "end_date": "2025-12-31",
+      "status": "paused",
+      "target_audience": "Families, gift buyers",
+      "metrics": {
+        "impressions": 85000,
+        "clicks": 2100,
+        "ctr": 2.47,
+        "conversions": 180,
+        "cost": 21000.00
+      },
+      "variants": []
+    },
+    {
+      "id": 4,
+      "name": "Back to School Campaign",
+      "objective": "Drive Sales",
+      "budget": 40000.00,
+      "start_date": "2025-08-01",
+      "end_date": "2025-09-15",
+      "status": "completed",
+      "target_audience": "Parents, students",
+      "metrics": {
+        "impressions": 150000,
+        "clicks": 4200,
+        "ctr": 2.8,
+        "conversions": 350,
+        "cost": 38000.00
+      },
+      "variants": []
+    },
+    {
+      "id": 5,
+      "name": "Spring Collection Preview",
+      "objective": "Brand Awareness",
+      "budget": 25000.00,
+      "start_date": "2025-03-01",
+      "end_date": "2025-04-30",
+      "status": "completed",
+      "target_audience": "Fashion enthusiasts, trendsetters",
+      "metrics": {
+        "impressions": 180000,
+        "clicks": 4500,
+        "ctr": 2.5,
+        "conversions": 320,
+        "cost": 24500.00
+      },
+      "variants": []
+    }
+  ]
+}
